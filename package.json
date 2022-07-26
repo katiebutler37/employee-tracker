@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "test": "jest",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^9.0.2",
+    "mysql2": "^2.3.3"
+  }
+}
