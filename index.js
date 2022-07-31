@@ -8,6 +8,12 @@ const viewDepartments = async () => {
   const { departments } = await connection.getDepartments();
   console.table(departments);
 };
+
+const viewRoles = async () => {
+  const { roles } = await connection.getRoles();
+  console.table(roles);
+};
+
 async function addDepartment() {
   const { department_name } = await inquirer.prompt([
     {
@@ -143,6 +149,7 @@ async function choosePrompt() {
       await addDepartment();
       break;
     case "View Roles":
+      await viewRoles();
       break;
     case "Add Role":
       await addRole();

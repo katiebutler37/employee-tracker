@@ -23,7 +23,6 @@ CREATE TABLE employees (
   last_name VARCHAR(30) NOT NULL,
   role_id INTEGER,
   CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles(role_id) ON DELETE SET NULL,
-  manager_id INTEGER
---   CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employees(employee_id) ON DELETE SET NULL
-  -- need to adjust this one still for sure
+  manager_id INTEGER,
+  CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employees(employee_id) ON DELETE SET NULL
 );
