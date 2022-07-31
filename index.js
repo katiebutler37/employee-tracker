@@ -20,10 +20,10 @@ const viewEmployees = async () => {
 };
 
 async function addDepartment() {
-  const { department_name } = await inquirer.prompt([
+  const { name } = await inquirer.prompt([
     {
       type: "input",
-      name: "department_name",
+      name: "name",
       message: "Please enter the name of the department you would like to add.",
       //makes answer required
       validate: (departmentInput) => {
@@ -36,8 +36,11 @@ async function addDepartment() {
           return false;
         }
       },
-    },
+    }
   ]);
+  console.log(name)
+  await connection.addDepartmentQuery(name)
+  ;
   //query to INSERT INTO departments
 }
 async function addRole() {
@@ -84,9 +87,6 @@ async function addRole() {
         //make choices display as an array of existing department names where the department id is equal to the index (db.departments.department_name)
       },
     ]);
-  // 
-  //function to retun the index value of the obj chosen and set equal to department_id
-  //const role = new Role (title, salary, department_id)
   //query to INSERT INTO departments role obj
 }
 async function addEmployee() {
