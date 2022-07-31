@@ -14,6 +14,11 @@ const viewRoles = async () => {
   console.table(roles);
 };
 
+const viewEmployees = async () => {
+  const { employees } = await connection.getEmployees();
+  console.table(employees);
+};
+
 async function addDepartment() {
   const { department_name } = await inquirer.prompt([
     {
@@ -155,6 +160,7 @@ async function choosePrompt() {
       await addRole();
       break;
     case "View Employees":
+      await viewEmployees();
       break;
     case "Add Employee":
       break;
