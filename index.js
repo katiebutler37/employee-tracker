@@ -20,7 +20,8 @@ const viewEmployees = async () => {
 };
 
 async function addDepartment() {
-  const { name } = await inquirer.prompt([
+  const { name } = await 
+  inquirer.prompt([
     {
       type: "input",
       name: "name",
@@ -38,10 +39,10 @@ async function addDepartment() {
       },
     }
   ]);
-  console.log(name)
-  await connection.addDepartmentQuery(name)
-  ;
   //query to INSERT INTO departments
+  connection.addDepartmentQuery(name);
+  //back to main menu
+  choosePrompt();
 }
 async function addRole() {
 
@@ -59,8 +60,7 @@ async function addRole() {
             return true;
           } else {
             console.log(
-              "You must enter the title of the role you would like to add before continuing."
-            );
+              "You must enter the title of the role you would like to add before continuing.");
             return false;
           }
         },
