@@ -7,16 +7,19 @@ const connection = new myDatabase();
 const viewDepartments = async () => {
   const { departments } = await connection.getDepartments();
   console.table(departments);
+  choosePrompt();
 };
 
 const viewRoles = async () => {
   const { roles } = await connection.getRoles();
   console.table(roles);
+  choosePrompt();
 };
 
 const viewEmployees = async () => {
   const { employees } = await connection.getEmployees();
   console.table(employees);
+  choosePrompt();
 };
 
 async function addDepartment() {
@@ -84,10 +87,14 @@ async function addRole() {
         name: "department_option",
         message: "Please select the department your new role belongs to.",
         choices: departmentNames
-        //make choices display as an array of existing department names where the department id is equal to the index (db.departments.department_name)
-      },
+      }
     ]);
-  //query to INSERT INTO departments role obj
+    //use await if receiving data from database, dont use if sending to db
+    const { department_id } = await connection.getDepartmentId(department_option);
+   //query to INSERT INTO departments
+   connection.addRoleQuery(title, salary, department_id);
+   //back to main menu
+   choosePrompt();
 }
 async function addEmployee() {
   const { first_name, last_name, manager_option, role_option } =

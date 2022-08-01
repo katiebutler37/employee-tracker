@@ -6,12 +6,12 @@ DROP TABLE IF EXISTS departments;
 -- must declare tables that are referenced (their primary et for another table's foreign key) first, be mindful of table order
 CREATE TABLE departments (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(30) NOT NULL
+  name VARCHAR(70) NOT NULL
 );
 
 CREATE TABLE roles (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(30) NOT NULL,
+  title VARCHAR(70) NOT NULL,
   salary DECIMAL NOT NULL,
   department_id INTEGER,
   CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE SET NULL
