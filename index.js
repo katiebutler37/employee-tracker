@@ -150,8 +150,9 @@ async function addEmployee() {
       }
     ]);
 
-    const { roleId } = await connection.getDepartmentId(role_option);
-    //query to insert into db
+  const { roleId } = await connection.getDepartmentId(role_option);
+   //query to INSERT INTO db
+   connection.addEmployeeQuery(first_name, last_name, roleId);
   if (confirmManager) {
     addEmployeeManager();
   }
@@ -162,24 +163,21 @@ async function addEmployee() {
 
 async function addEmployeeManager() {
 
-const { managerNames } = await connection.getManagerNames(); 
+  const { managerNames } = await connection.getManagerNames();
 
-const { manager_option } = await
-inquirer.prompt([
-  {
-    type: "list",
-    name: "manager_option",
-    message: "What is the process for submitting a pull request to your repository? (Required)",
-    //makes answer required
-    choices: managerNames,
-    //only ask about manager if they select yes there is a manager
-    when: ({ confirmManager }) => confirmManager
-  }
-])
-
-
-const { managerId } = await connection.getDepartmentId(manager_option);
-//query to INSERT INTO departments
+  const { manager_option } = await
+    inquirer.prompt([
+      {
+        type: "list",
+        name: "manager_option",
+        message: "Please select the name of the manager your new employee reports to.",
+        choices: managerNames
+      }
+    ])
+  const { managerId } = await connection.getDepartmentId(manager_option);
+  //query to INSERT INTO departments
+  connection.addEmployeeManagerQuery(managerId);
+  choosePrompt();
 }
 
 async function choosePrompt() {
