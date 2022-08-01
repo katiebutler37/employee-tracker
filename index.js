@@ -163,21 +163,66 @@ async function addEmployee() {
 
 async function addEmployeeManager() {
 
-  const { managerNames } = await connection.getManagerNames();
+  const { employeeNames } = await connection.getEmployeeNames();
 
-  const { manager_option } = await
+  const { employee_option } = await
     inquirer.prompt([
       {
         type: "list",
-        name: "manager_option",
+        name: "employee_option",
         message: "Please select the name of the manager your new employee reports to.",
-        choices: managerNames
+        choices: employeeNames
       }
     ])
-  const { managerId } = await connection.getManagerId(manager_option);
+  const { employeeId } = await connection.getEmployeeId(employee_option);
   const { lastId } = await connection.getLastEmployee();
   //query to INSERT INTO departments
-  connection.addEmployeeManagerQuery(managerId, lastId);
+  connection.addEmployeeManagerQuery(employeeId, lastId);
+  choosePrompt();
+}
+
+async function updateEmployee() {
+
+  const { employeeNames } = await connection.getEmployeeNames();
+  const { roleNames } = await connection.getRoleNames();
+
+  const { employee_option, role_option } = await
+    inquirer.prompt([
+      {
+        type: "list",
+        name: "employee_option",
+        message: "Please select the name of the employee you would like to update.",
+        choices: employeeNames
+      },
+      {
+        type: "list",
+        name: "role_option",
+        message: "Please select the updated role of this employee.",
+        choices: roleNames
+      }
+    ])
+    const { roleId } = await connection.getRoleId(role_option);
+    const { employeeId } = await connection.getEmployeeId(employee_option);
+    connection.updateEmployeeRoleQuery(roleId, employeeId);
+    choosePrompt();
+}
+
+async function viewEmployeesbyManager(){
+
+  const { managerNames } = await connection.getManagerNames();
+
+  const { manager_option } = await
+  inquirer.prompt([
+    {
+      type: "list",
+      name: "manager_option",
+      message: "Please select the name of the manager to view the employees they oversee.",
+      choices: managerNames
+    }
+  ])
+  const { employeeId } = await connection.getEmployeeId(manager_option);
+  const { employeesByManager } = await connection.getEmployeesByManager(employeeId);
+  console.table(employeesByManager);
   choosePrompt();
 }
 
@@ -195,6 +240,7 @@ async function choosePrompt() {
         "View Employees",
         "Add Employee",
         "Update Employee Role",
+        "View Employees by Manager"
       ],
     },
   ]);
@@ -218,8 +264,12 @@ async function choosePrompt() {
       await addEmployee();
       break;
     case "Update Employee Role":
+      await updateEmployee();
       break;
-    default:
+    case "View Employees by Manager":
+      await viewEmployeesbyManager();
+      break;  
+    default: return;
   }
 }
 choosePrompt();
