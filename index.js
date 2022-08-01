@@ -23,25 +23,25 @@ const viewEmployees = async () => {
 };
 
 async function addDepartment() {
-  const { name } = await 
-  inquirer.prompt([
-    {
-      type: "input",
-      name: "name",
-      message: "Please enter the name of the department you would like to add.",
-      //makes answer required
-      validate: (departmentInput) => {
-        if (departmentInput) {
-          return true;
-        } else {
-          console.log(
-            "You must enter the name of the department you would like to add before continuing."
-          );
-          return false;
-        }
-      },
-    }
-  ]);
+  const { name } = await
+    inquirer.prompt([
+      {
+        type: "input",
+        name: "name",
+        message: "Please enter the name of the department you would like to add.",
+        //makes answer required
+        validate: (departmentInput) => {
+          if (departmentInput) {
+            return true;
+          } else {
+            console.log(
+              "You must enter the name of the department you would like to add before continuing."
+            );
+            return false;
+          }
+        },
+      }
+    ]);
   //query to INSERT INTO departments
   connection.addDepartmentQuery(name);
   //back to main menu
@@ -89,16 +89,19 @@ async function addRole() {
         choices: departmentNames
       }
     ]);
-    //use await if receiving data from database, dont use if sending to db
-    const { department_id } = await connection.getDepartmentId(department_option);
-   //query to INSERT INTO departments
-   connection.addRoleQuery(title, salary, department_id);
-   //back to main menu
-   choosePrompt();
+  //use await if receiving data from database, dont use if sending to db
+  const { departmentId } = await connection.getDepartmentId(department_option);
+  //query to INSERT INTO departments
+  connection.addRoleQuery(title, salary, departmentId);
+  //back to main menu
+  choosePrompt();
 }
 async function addEmployee() {
-  const { first_name, last_name, manager_option, role_option } =
-    await inquirer.prompt([
+
+  const { roleNames } = await connection.getRoleNames();
+
+  const { first_name, last_name, role_option, confirmManager } = await
+    inquirer.prompt([
       {
         type: "input",
         name: "first_name",
@@ -110,7 +113,7 @@ async function addEmployee() {
             return true;
           } else {
             console.log(
-              "You must enter the first name of the emloyee you would like to add before continuing."
+              "You must enter the first name of the employee you would like to add before continuing."
             );
             return false;
           }
@@ -133,9 +136,52 @@ async function addEmployee() {
           }
         },
       },
+      {
+        type: "list",
+        name: "role_option",
+        message: "Please select the role of your new employee.",
+        choices: roleNames
+      },
+      {
+        type: "confirm",
+        name: "confirmManager",
+        message: "Does this employee report to a manager?",
+        default: false
+      }
     ]);
-  //query to INSERT INTO departments
+
+    const { roleId } = await connection.getDepartmentId(role_option);
+    //query to insert into db
+  if (confirmManager) {
+    addEmployeeManager();
+  }
+  else {
+    choosePrompt();
+  }
 }
+
+async function addEmployeeManager() {
+
+const { managerNames } = await connection.getManagerNames(); 
+
+const { manager_option } = await
+inquirer.prompt([
+  {
+    type: "list",
+    name: "manager_option",
+    message: "What is the process for submitting a pull request to your repository? (Required)",
+    //makes answer required
+    choices: managerNames,
+    //only ask about manager if they select yes there is a manager
+    when: ({ confirmManager }) => confirmManager
+  }
+])
+
+
+const { managerId } = await connection.getDepartmentId(manager_option);
+//query to INSERT INTO departments
+}
+
 async function choosePrompt() {
   const { action } = await inquirer.prompt([
     {
@@ -170,6 +216,7 @@ async function choosePrompt() {
       await viewEmployees();
       break;
     case "Add Employee":
+      await addEmployee();
       break;
     case "Update Employee Role":
       break;
