@@ -150,7 +150,7 @@ async function addEmployee() {
       }
     ]);
 
-  const { roleId } = await connection.getDepartmentId(role_option);
+  const { roleId } = await connection.getRoleId(role_option);
    //query to INSERT INTO db
    connection.addEmployeeQuery(first_name, last_name, roleId);
   if (confirmManager) {
@@ -174,9 +174,10 @@ async function addEmployeeManager() {
         choices: managerNames
       }
     ])
-  const { managerId } = await connection.getDepartmentId(manager_option);
+  const { managerId } = await connection.getManagerId(manager_option);
+  const { lastId } = await connection.getLastEmployee();
   //query to INSERT INTO departments
-  connection.addEmployeeManagerQuery(managerId);
+  connection.addEmployeeManagerQuery(managerId, lastId);
   choosePrompt();
 }
 
