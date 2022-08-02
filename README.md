@@ -20,22 +20,18 @@ To install the project repository, please follow these steps:
 3. Enter ```npm install ``` into the command line to get access to all the necessary node modules.
 
 ## Usage
-To get started using Note Taker...
-1. Navigate to the deployed application using this link: [Note Taker](https://note-taker-2-point-0.herokuapp.com/).
-2. Click on Get Started.
-3. You may now add, save and delete your notes as you see fit.
-
-![Note Taker Landing Page](./public/assets/images/home-page.png/)
-
-![Note Taker Notes Page](./public/assets/images/notes-page.png/)
+To get started using Employe Tracker...
+1. Enter ```npm start``` into the command line.
+2. Select the desired option from the drop down list of prompts.
 
 ## License
 This project is not licensed.
 
 ## Contributing
-This project was created based off of starter code supplied by the University of Toronto School of Continuing Studies Coding Bootcamp. 
+This project was created based off of guidelines provided by the University of Toronto School of Continuing Studies Coding Bootcamp. 
 
-If you would like to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owner of this repository before making a change. Only respectful engagement with this repository will be tolerated to foster an open and welcome environment.
+If you would like to contribute to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owner of this repository before making a change. Only respectful engagement with this repository will be tolerated to foster an open and welcome environment.
+
   ### Pull Request Process
   - Pull requests will be merged upon approval of the repository owner.
 
