@@ -24,6 +24,8 @@ To get started using Employe Tracker...
 1. Enter ```npm start``` into the command line.
 2. Select the desired option from the drop down list of prompts.
 
+https://user-images.githubusercontent.com/103510105/182267149-7ef7950b-05bb-4314-a757-fab783e2bde2.mp4
+
 ## License
 This project is not licensed.
 
